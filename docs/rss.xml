@@ -1,5 +1,141 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Oldbuck</title><link>https://Oldbuck.github.io</link><description>一枚java后端开发</description><copyright>Oldbuck</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/28443023?v=4</url><title>avatar</title><link>https://Oldbuck.github.io</link></image><lastBuildDate>Sat, 18 Jan 2025 03:38:28 +0000</lastBuildDate><managingEditor>Oldbuck</managingEditor><ttl>60</ttl><webMaster>Oldbuck</webMaster><item><title>稀疏数组</title><link>https://Oldbuck.github.io/post/xi-shu-shu-zu.html</link><description># 稀疏数组
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Oldbuck</title><link>https://Oldbuck.github.io</link><description>一枚java后端开发</description><copyright>Oldbuck</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/28443023?v=4</url><title>avatar</title><link>https://Oldbuck.github.io</link></image><lastBuildDate>Sat, 18 Jan 2025 16:11:39 +0000</lastBuildDate><managingEditor>Oldbuck</managingEditor><ttl>60</ttl><webMaster>Oldbuck</webMaster><item><title>数组模拟环形队列</title><link>https://Oldbuck.github.io/post/shu-zu-mo-ni-huan-xing-dui-lie.html</link><description># 数组模拟环形队列
+front 就指向队列的第一个元素, 也就是说 arr[front] 就是队列的第一个元素 
+rear 指向队列的最后一个元素的后一个位置. 因为希望&lt;font color='red'&gt;空出一个空间&lt;/font&gt;做为约定.
+front,rear 的初始值 = 0
+队列满
+(rear  + 1) % maxSize == front
+队列空
+rear == front
+队列中元素的个数
+(rear + maxSize - front) % maxSize
+
+``` java
+import java.util.Scanner;  
+  
+public class ArrayQueue {  
+    public static void main(String[] args) {  
+//测试一把  
+        System.out.println('测试数组模拟环形队列的案例~~~');  
+  
+        // 创建一个环形队列  
+        ArrayQueue queue = new ArrayQueue(4); //说明设置4, 其队列的有效数据最大是3  
+        char key = ' '; // 接收用户输入  
+        Scanner scanner = new Scanner(System.in);//  
+        boolean loop = true;  
+        // 输出一个菜单  
+        while (loop) {  
+            System.out.println('s(show): 显示队列');  
+            System.out.println('e(exit): 退出程序');  
+            System.out.println('a(add): 添加数据到队列');  
+            System.out.println('g(get): 从队列取出数据');  
+            System.out.println('h(head): 查看队列头的数据');  
+            key = scanner.next().charAt(0);// 接收一个字符  
+            switch (key) {  
+                case 's':  
+                    queue.showQueue();  
+                    break;  
+                case 'a':  
+                    System.out.println('输出一个数');  
+                    int value = scanner.nextInt();  
+                    queue.addQueue(value);  
+                    break;  
+                case 'g': // 取出数据  
+                    try {  
+                        int res = queue.getQueue();  
+                        System.out.printf('取出的数据是%d\n', res);  
+                    } catch (Exception e) {  
+                        // TODO: handle exception  
+                        System.out.println(e.getMessage());  
+                    }  
+                    break;  
+                case 'h': // 查看队列头的数据  
+                    try {  
+                        int res = queue.headQueue();  
+                        System.out.printf('队列头的数据是%d\n', res);  
+                    } catch (Exception e) {  
+                        // TODO: handle exception  
+                        System.out.println(e.getMessage());  
+                    }  
+                    break;  
+                case 'e': // 退出  
+                    scanner.close();  
+                    loop = false;  
+                    break;  
+                default:  
+                    break;  
+            }  
+        }  
+        System.out.println('程序退出~~');  
+    }  
+  
+    // 数组最大容量  
+    private int maxSize;  
+    // 队列的头  
+    private int front;  
+    // 队列的最后元素的后一个元素，希望空出一个空间作为约定  
+    private int rear;  
+    // 数组  
+    private int[] arr;  
+  
+    public ArrayQueue(int size) {  
+        maxSize = size;  
+        arr = new int[size];  
+        front = 0;  
+        rear = 0;  
+    }  
+  
+    public boolean isFull() {  
+        return front == (rear + 1) % maxSize;  
+    }  
+  
+    public boolean isEmpty() {  
+        return rear == front;  
+    }  
+  
+    public void addQueue(int val) {  
+        if (isFull()) {  
+            System.out.println('队列满，不能加入数据~');  
+            return;  
+        }  
+        arr[rear] = val;  
+        rear = (rear + 1) % maxSize;  
+    }  
+  
+    public int getQueue() {  
+        if (isEmpty()) {  
+            throw new RuntimeException('队列为空');  
+        }  
+        int val = arr[front];  
+        front = (front + 1) % maxSize;  
+        return val;  
+    }  
+  
+    public void showQueue() {  
+        if (isEmpty()) {  
+            System.out.println('队列为空');  
+            return;  
+        }  
+        for (int i = front; i &lt; front + size(); ++i) {  
+            System.out.printf('arr[%d]=%d\n', i % maxSize, arr[i % maxSize]);  
+        }  
+    }  
+  
+    public int size() {  
+        return (rear + maxSize - front) % maxSize;  
+    }  
+  
+  
+    public int headQueue() {  
+        if (isEmpty()) {  
+            throw new RuntimeException('队列为空');  
+        }  
+        return arr[front];  
+    }  
+  
+}
+```
+。</description><guid isPermaLink="true">https://Oldbuck.github.io/post/shu-zu-mo-ni-huan-xing-dui-lie.html</guid><pubDate>Sat, 18 Jan 2025 03:38:34 +0000</pubDate></item><item><title>稀疏数组</title><link>https://Oldbuck.github.io/post/xi-shu-shu-zu.html</link><description># 稀疏数组
 介绍：
 第一行是原始数组的行，列，有效值。</description><guid isPermaLink="true">https://Oldbuck.github.io/post/xi-shu-shu-zu.html</guid><pubDate>Sat, 18 Jan 2025 03:37:59 +0000</pubDate></item><item><title>查看分支间的差别</title><link>https://Oldbuck.github.io/post/cha-kan-fen-zhi-jian-de-cha-bie.html</link><description>比如我们想查看4-0-stable分支与3-2-stable分支之间的差别，可以
 像下面这样将分支名加到URL里。</description><guid isPermaLink="true">https://Oldbuck.github.io/post/cha-kan-fen-zhi-jian-de-cha-bie.html</guid><pubDate>Fri, 17 Jan 2025 04:29:40 +0000</pubDate></item><item><title>Git常用命令</title><link>https://Oldbuck.github.io/post/Git-chang-yong-ming-ling.html</link><description>### 仓库&#13;
